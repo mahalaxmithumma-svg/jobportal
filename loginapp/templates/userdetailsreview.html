@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Userdetailsreview page</h2>
+
+    <div class="row">
+        {% for user in users %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow p-3">
+
+                <!-- 👤 User Icon -->
+                <div class="text-center mb-3">
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" 
+                         width="80" height="80">
+                </div>
+
+                <!-- User Info -->
+                <h5 class="text-center">
+                    {{ details.first_name }} {{ details.last_name }}
+                </h5>
+
+                <p><b>Position:</b> {{ details.position }}</p>
+                <p><b>Company:</b> {{ details.company }}</p>
+                <p><b>Designation:</b> {{ details.designation }}</p>
+                <p><b>Experience:</b> {{ details.experience }}</p>
+                <p><b>State:</b> {{ details.state }}, {{ details.city }}</p>
+                <p><b>Phone:</b> {{ details.phone }}</p>
+                <p><b>Email:</b> {{ details.email }}</p>
+
+
+                <!-- Resume -->
+                <div class="mb-2">
+                    {% if user.resume %}
+                        <a href="#" class="btn btn-info btn-sm">
+                            View Resume
+                        </a>
+                    {% else %}
+                        <span>No Resume</span>
+                    {% endif %}
+                </div>
+                <p>
+                    <b>Status:</b>
+                      {% if user.status == "Applied" %} 
+                          <span class="text-success">Applied </span>
+                      {% else %} 
+                               <span class="text-danger">Pending</span>
+                        {% endif %} 
+                              </p>
+                <!-- Actions -->
+                <div class="d-flex justify-content-between mt-3">
+                    <a href="{% url 'updateuserdetails' user.id %}" 
+                       class="btn btn-warning btn-sm">Update</a>
+
+                    <a href="{% url 'deleteuserdetails' user.id %}" 
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure?');">
+                       Delete
+                    </a>
+                 
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% for job in jobs %}
+    <div class="d-grid w-75 ">
+        <a href="{% url 'apply_job' job.id %}">
+ <button type="submit" class="btn btn-success">Apply</button></a>
+ {% endfor %}
+</div>
+</div>
+
+{% endblock %}

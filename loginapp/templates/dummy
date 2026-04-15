@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{%block content%}
+
+<div class="container mt-3">
+
+    <h3>Welcome {{request.session.name}}</h3>
+
+
+    
+    <nav class="navbar navbar-expand-sm navbar-dark bg-info mt-3">
+       <div class="container-fluid">
+
+        <a class="navbar-brand" href="#">Admin Dashbord</a> 
+
+         <div class="collapse navbar-collapse">
+
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Home</a>
+            </li> 
+            <li class="nav-item">
+              <a class="nav-link" href="#">Companies</a>
+            </li> 
+           </ul>
+
+           <ul class="navbar-nav ms-auto"> 
+            <li class="nav-item">
+              <a class="nav-link" href="#">Applicants</a>
+            </li> 
+              <div class="container-fluid text-center text-white mb-4  fw-bold p-4 m-4 w-75" style="font-weight: 28px; ">
+             <li class="nav-item" style="list-style-type: none;"> 
+            <a class=" btn btn-success btn-sm" href="{% url 'postjob' %}" style="border-radius: 10px; padding: 12px; font-size:14px; font-weight: bold;">Post New Job</a>
+            </li> 
+            </div>
+            <li class="nav-item">
+              <a class="btn btn-danger btn-sm" href="{ %url 'logout'}">Logout</a>
+            </li> 
+          </ul>
+
+        </div> 
+      </div>
+    </nav>
+
+    <div class="row mt-5">
+    {% for job in jobs %}
+    <div class="col-md-4 mb-4">
+      <div class="card shadow h-100 w-75">
+        <div class="card-body">
+          <h5 class="card-title-text-center"><strong>{{ job.title }}</strong></h5>
+          <p class="card-text-center"><strong>Company:</strong> {{ job.company }}</p>
+          <p class="card-text-center"><strong>Location:</strong> {{ job.location }}</p>
+          <p class="card-text-center"><strong>Salary:</strong> ₹{{ job.salary }}</p>
+          <p class="card-text-center"><strong>Type:</strong> {{ job.job_type }}</p>
+          <p class="card-text-center"><strong>Description:</strong>{{ job.description }}</p>
+        </div>
+        <div class="card-footer text-center">
+          <button class="btn btn-primary custom-btn">Apply</button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div> 
+<div class="container mt-5">
+    <h2 class="text-center mb-4">User Applications</h2>
+
+    <div class="row">
+        {% for user in users %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg border-0">
+                
+                <div class="card-body">
+                    
+                    User Icon 
+                    <div class="text-center mb-3">
+                        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" 
+                             width="60" height="60">
+                    </div>
+
+                    <h5 class="text-center">
+                     
+                        {{ user.first_name }} {{ user.last_name }}
+                    </h5>
+                     <p><b>Applied Job:</b> {{ user.job.title }}</p>
+                    <p><b>Email:</b> {{ user.email }}</p>
+                    <p><b>Company:</b> {{ user.company }}</p>
+                    <p><b>Experience:</b> {{ user.experience }}</p>
+                    <p><b>Designation:</b> {{ user.designation }}</p>
+
+                    Status 
+                    <p>
+                        <b>Status:</b>
+                        <span class="badge bg-success">
+                            {{ user.status }}
+                        </span>
+                    </p>
+
+                    - Resume -
+                    {% if user.resume %}
+                    <a href="{{ user.resume.url }}" 
+                       class="btn btn-sm btn-primary w-100">
+                        View Resume
+                    </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{%end block%}
+<!-- <a href="{% url 'appliedjobs' %}" class="btn btn-primary btn-sm">Applied Jobs</a> -->
+ <p><b>Applied On:</b> {{ app.applied_on|date:"Y-m-d H:i" }}</p><!-- <div class="user" style="text-align: center; margin-top: 10px; font-size: 28px; ">
+    <span class="text-center text-white me-3">{{user.username}}</span>
+</div>  
+{% extends 'base.html' %}
+{%load static%}
+
+{% block content %}
+<style>
+  /* .hero-section {
+    background-image: url("{% static 'images/images.jpg' %}");
+    height: 100vh;
+    background-size: cover;
+    position: relative;
+}
+
+.overlay {
+    background: rgba(0,0,0,0.5);
+    height: 100%;
+    color: white;
+    text-align: center;
+    padding-top: 200px;
+} */
+</style>
+<form method="POST">
+{% csrf_token %}
+ 
+  <!-- <div class="user" style="text-align: center; margin-top: 10px; font-size: 28px; ">
+    <span class="text-center text-white me-3">{{user.username}}</span>
+</div>   -->
+
+  <!-- <div class="welcome" style="text-align: center;  font-size: 28px; ">
+    <div class="container ">
+
+    <div class="d-flex align-items-center ms-auto gap-3">
+    <span class="me-3 text-dark">
+        Welcome {{ username }}
+    </span>
+</div>
+</div>     -->
+
+<div class="hero-section text-center text-black py-5 shadow" style="background-color: rgb(128, 11, 237);">
+    <div class="container">
+        <h1 class="display-5 fw-bold">🚀 Find Your Dream Job</h1>
+        <p class="lead">Thousands of jobs waiting for you</p>
+    </div>
+</div>
+
+
+
+<div class="container mt-4 d-flex w-100 gap-5 shadow p-4  justify-content-center">
+    
+
+        <input type="text"
+               class="form-control"
+               name="title"
+               placeholder="Job title / Company name">
+
+ 
+        <input type="text"
+               class="form-control"
+               name="location"
+               placeholder="Location">
+
+        <button type="submit" class="btn btn-primary">
+            Search
+        </button>
+
+   
+</div>
+</div>
+</div>
+
+
+         <div class="mb-3 mt-3 pt-3">
+       <h2>Available  Jobs</h2>
+        {% if jobs %}
+     <div class="row mt-5">
+     {% for job in jobs %}
+    <div class="col-md-4 mb-4">
+      <div class="card shadow h-100 w-75">
+        <div class="card-body">
+          
+      <h5 class="card-title fw-bold fs-6 text-primary">
+        {{ job.title }}
+      </h5>
+
+      <p class="card-text mb-1 fw-bold fs-6">
+        <strong>Company:</strong> {{ job.company }}
+      </p>
+
+      <p class="card-text mb-1 fw-bold fs-6">
+        <strong>Location:</strong> {{ job.location }}
+      </p>
+
+      <p class="card-text  mb-1 fw-bold fs-6">
+        <strong>Salary:</strong> {{ job.salary }}
+      </p>
+
+      <p class="card-text mb-1 fw-bold fs-6">
+        <strong>Type:</strong> {{ job.job_type }}
+      </p>
+
+      <p class="card-text mb-1 fw-bold fs-6"><strong>Description:</strong>
+        {{ job.description }}
+      </p>
+
+    </div>
+
+    <div class="card-footer text-center bg-white ">
+      <a href="{% url 'apply_job' job.id %}" class="btn btn-primary ">
+    Apply
+</a>
+    </div>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+
+  {% else %}
+    <div class="alert alert-danger text-center">
+      No jobs found
+    </div>
+  {% endif %}
+</div>
+</div>
+</form>
+
+{% endblock %}

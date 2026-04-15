@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+body {
+    background: linear-gradient(to right, #38BDF8, #A78BFA);
+}
+
+label {
+    font-weight: 700;
+    color: black;
+}
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+
+        <div class="col-md-4">
+
+            <!-- ICON + HEADER -->
+             <div class="text-center mb-4"> 
+
+                <!-- Icon box with shadow -->
+                <!-- <div class="d-inline-flex justify-content-center align-items-center rounded-circle shadow"
+                     style="width: 100px; height: 100px; background: white;"> -->
+
+                    
+
+            <!-- LOGIN CARD -->
+            <div class="card shadow p-4">
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" 
+                         width="80" height="80" style="border-radius: 50%; background-color: blue;">
+                         <div class="text-center mb-3">
+                    
+                
+                
+
+                <h4 class="fw-bold mt-3">Welcome Back</h4>
+                <p class="fw-bold mt-3 fs-10px">Job Portal</p>
+            
+
+                    <div class="row mb-3">
+                        <label class="form-label" style="text-align: left;">Username</label>
+                        <input type="text" class="form-control"
+                               name="username"
+                               placeholder="Enter username"
+                               required>
+                    </div>
+
+                    <div class=" row mb-3">
+                        <label class="form-label" style="text-align: left;">Password</label>
+                        <input type="password" class="form-control"
+                               name="password"
+                               placeholder="Enter password"
+                               required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            Login
+                        </button>
+                    </div>
+
+                </form>
+
+                <!-- ERROR MESSAGE -->
+                {% if msg %}
+                <div class="alert alert-danger mt-3 text-center">
+                    {{ msg }}
+                </div>
+                {% endif %}
+
+                <!-- LINKS -->
+                <div class="text-center mt-3">
+                    <a href="{% url 'register' %}" class="text-decoration-none">
+                        Candidate
+                    </a>
+
+                    <span class="mx-2">|</span>
+
+                    <a href="{% url 'adminregister' %}" class="text-decoration-none">
+                        Admin
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock %}

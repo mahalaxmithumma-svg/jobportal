@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card shadow p-4 col-md-6 mx-auto">
+
+        <h3 class="text-center mb-4">Apply for {{ job.title }}</h3>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" 
+                       value="{{request.session.name}}" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" 
+                       value="{{request.session.email}}" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Mobile</label>
+                <input type="text" name="mobile" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Experience</label>
+                <input type="text" name="experience" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Resume</label>
+                <input type="file" name="resume" class="form-control" required>
+            </div>
+
+            {% if job.is_active %}
+                <button type="submit" class="btn btn-primary w-100">
+                  Apply Now
+          </button>
+       {% else %}
+             <div class="text-center">
+        <span class="text-danger fw-bold"> Applications Closed</span>
+          </div>
+           {% endif %}
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

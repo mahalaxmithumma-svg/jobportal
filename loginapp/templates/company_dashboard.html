@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}Company Dashboard{% endblock %}
+{% block content %}
+<div class="container" style="padding-top:36px;padding-bottom:60px;">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;">
+    <div>
+      {% with cp=request.user.company_profile %}
+      <h1 class="page-title">{% if cp %}{{ cp.company_name }}{% else %}Company Dashboard{% endif %}</h1>
+      {% endwith %}
+      <p class="page-subtitle">Manage your job listings and review applicants</p>
+    </div>
+    <a href="{% url 'job_create' %}" class="btn btn-primary">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Post New Job
+    </a>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon purple">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
+      <div><div class="stat-value">{{ stats.total_jobs }}</div><div class="stat-label">Total Jobs</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+      </div>
+      <div><div class="stat-value">{{ stats.active_jobs }}</div><div class="stat-label">Active Jobs</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon blue">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      </div>
+      <div><div class="stat-value">{{ stats.total_applications }}</div><div class="stat-label">Total Applicants</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/></svg>
+      </div>
+      <div><div class="stat-value">{{ stats.shortlisted }}</div><div class="stat-label">Shortlisted</div></div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="align-items:start;">
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h4>Your Job Listings</h4>
+        <a href="{% url 'job_create' %}" style="font-size:0.85rem;color:var(--primary);">+ Post Job</a>
+      </div>
+      {% if jobs %}
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        {% for job in jobs %}
+        <div class="card" style="padding:16px 20px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+            <div>
+              <a href="{% url 'job_detail' job.pk %}" style="font-weight:600;color:var(--gray-800);">{{ job.title }}</a>
+              <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;">
+                <span class="badge badge-gray" style="font-size:0.75rem;">{{ job.get_job_type_display }}</span>
+                <span class="badge badge-gray" style="font-size:0.75rem;">{{ job.location }}</span>
+                {% if job.is_active %}<span class="badge badge-green" style="font-size:0.75rem;">Active</span>{% else %}<span class="badge badge-red" style="font-size:0.75rem;">Inactive</span>{% endif %}
+              </div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:0.82rem;color:var(--primary);font-weight:600;">{{ job.app_count }} applicant{{ job.app_count|pluralize }}</div>
+              <div style="display:flex;gap:6px;margin-top:6px;">
+                <a href="{% url 'job_edit' job.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+                <a href="{% url 'application_list' %}?job={{ job.pk }}" class="btn btn-outline btn-sm">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state" style="padding:40px 20px;">
+        <p style="color:var(--gray-400);">No jobs posted yet</p>
+        <a href="{% url 'job_create' %}" class="btn btn-primary btn-sm">Post Your First Job</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h4>Recent Applicants</h4>
+        <a href="{% url 'application_list' %}" style="font-size:0.85rem;color:var(--primary);">View All</a>
+      </div>
+      {% if recent_applications %}
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        {% for app in recent_applications %}
+        <div class="card" style="padding:14px 18px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-weight:600;font-size:0.9rem;">{{ app.candidate.get_full_name|default:app.candidate.username }}</div>
+              <div style="font-size:0.78rem;color:var(--primary);">{{ app.job.title }}</div>
+              <div style="font-size:0.75rem;color:var(--gray-400);">{{ app.applied_at|date:"M d" }}</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="badge status-{{ app.status }}" style="font-size:0.75rem;">{{ app.get_status_display }}</span>
+              <a href="{% url 'update_status' app.id %}" class="btn btn-outline btn-sm">Review</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state" style="padding:40px 20px;">
+        <p style="color:var(--gray-400);">No applications yet</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

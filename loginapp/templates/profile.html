@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">My Profile</h2>
+
+    <div class="row">
+        {% for user in users %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow p-3">
+
+                <!-- 👤 User Icon -->
+                <div class="text-center mb-3">
+                    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" 
+                         width="80" height="80" style="border-radius: 50%; background-color: blue;">
+                </div>
+
+                <!-- User Info -->
+                <h5 class="text-center">
+                    {{ user.first_name }} {{ user.last_name }}
+                </h5>
+
+                <p><b>Position:</b> {{ user.position }}</p>
+                <p><b>Company:</b> {{ user.company }}</p>
+                <p><b>Designation:</b> {{ user.designation }}</p>
+                <p><b>Experience:</b> {{ user.experience }}</p>
+                <p><b>State:</b> {{ user.state }}, {{ user.city }}</p>
+                <p><b>Phone:</b> {{ user.phone }}</p>
+                <p><b>Email:</b> {{ user.email }}</p>
+
+
+                <!-- Resume -->
+                <div class="mb-2">
+                    {% if user.resume %}
+                        <a href="{{user.resume.url}}" class="btn btn-info btn-sm" target="_blank">
+                            View Resume
+                        </a>
+                    {% else %}
+                        <span>No Resume</span>
+                    {% endif %}
+                </div>
+                <p>
+                    <b>Status:</b>
+                      {% if user.status == "Applied" %} 
+                          <span class="text-success">Applied </span>
+                      {% else %} 
+                               <span class="text-danger">Pending</span>
+                        {% endif %} 
+                              </p>
+                <!-- Actions -->
+                <div class="d-flex justify-content-between mt-3">
+
+    <!-- Update -->
+    <a href="{% url 'userdetailsupdate' user.id %}" class="btn btn-warning btn-sm">
+        Update
+    </a>
+
+    <!-- Delete -->
+    <form action="{% url 'delete' user.id %}" method="POST"
+          onsubmit="return confirm('Are you sure?');">
+        {% csrf_token %}
+        <button class="btn btn-danger btn-sm">Delete</button>
+    </form>
+
+</div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% for job in jobs %}
+    <div class="d-grid w-75 ">
+         <a href="{% url 'apply_job' job.id %}" class="btn btn-success">
+        Apply for Job
+    </a>
+ {% endfor %}
+</div>
+</div>
+{% endblock %}

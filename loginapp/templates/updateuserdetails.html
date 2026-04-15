@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Update User Details</h2>
+    <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">First Name</label>
+                <input type="text" name="first_name" class="form-control" value="{{ user.first_name }}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Last Name</label>
+                <input type="text" name="last_name" class="form-control" value="{{ user.last_name }}" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Position</label>
+            <input type="text" name="position" class="form-control" value="{{ user.position }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Company</label>
+            <input type="text" name="company" class="form-control" value="{{ user.company }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Designation</label>
+            <input type="text" name="designation" class="form-control" value="{{ user.designation }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Experience</label>
+            <input type="text" name="experience" class="form-control" value="{{ user.experience }}">
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">State</label>
+                <input type="text" name="state" class="form-control" value="{{ user.state }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">City</label>
+                <input type="text" name="city" class="form-control" value="{{ user.city }}">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="text" name="phone" class="form-control" value="{{ user.phone }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" value="{{ user.email }}">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Address</label>
+            <textarea name="address" class="form-control">{{ user.address }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Date of Birth</label>
+            <input type="date" name="dob" class="form-control" value="{{ user.dob }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Portfolio URL</label>
+            <input type="url" name="portfolio" class="form-control" value="{{ user.portfolio }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Resume</label>
+            <input type="file" name="resume" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="{% url 'userdetailsreview' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

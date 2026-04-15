@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="bg-light">
+
+<h2 class="text-center mt-4">Applied Jobs</h2>
+
+<div class="container">
+    <div class="row mt-4">
+
+        {% for app in applications %}
+        <div class="col-md-4 mb-4">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+                   
+                    <h5>{{ app.job.title }}</h5>
+
+                    <p><b>Company:</b> {{ app.job.company }}</p>
+                    <p><b>Location:</b> {{ app.job.location }}</p>
+                    <p><b>Salary:</b> {{ app.job.salary }}</p>
+                    <p><b>Job Type:</b> {{ app.job.job_type }}</p>
+                    <p><b>Description:</b> {{ app.job.description }}</p>
+
+                    <!-- STATUS -->
+                    <p>
+                        <b>Status:</b>
+                        {% if app.status == 'Pending' %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        {% elif app.status == 'Selected' %}
+                            <span class="badge bg-success">Selected</span>
+                        {% elif app.status == 'Rejected' %}
+                            <span class="badge bg-danger">Rejected</span>
+                        {% else %}
+                            <span class="badge bg-secondary">{{ app.status }}</span>
+                        {% endif %}
+                    </p>
+
+                </div>
+
+                
+                <div class="card-footer bg-white d-flex flex-column gap-2 justify-content-between">
+
+                    <!-- View Resume -->
+                   {% if app.resume %}
+                 <a href="{{ app.resume.url }}" target="_blank" class="btn btn-primary">
+                    <i class="bi bi-file-earmark-pdf"></i>  View Resume
+                                  </a>
+                       {% else %}
+                      <span>No Resume</span>
+                           {% endif %}
+
+                    <!-- Delete -->
+                    <a href="{% url 'delete_application' app.id %}" class="btn btn-danger">
+                        <i class="bi bi-x-circle"></i> Delete
+                    </a>
+
+                    <!-- Status Buttons -->
+                    <a href="{% url 'update_app_status' app.id 'Selected' %}" class="btn btn-success"><i class="bi bi-check-circle"></i>
+                        Select
+                    </a>
+
+                    <a href="{% url 'update_app_status' app.id 'Rejected' %}" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Reject
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+        <p class="text-center">You have not applied to any jobs yet.</p>
+        {% endfor %}
+
+    </div>
+</div>
+
+</div>
+
+{% endblock %}

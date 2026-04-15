@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- 🔷 HERO SECTION -->
+<div class="hero-section text-center text-black py-5 shadow" style="background-color: rgb(128, 11, 237);">
+    <div class="container">
+        <h1 class="display-5 fw-bold">🚀 Find Your Dream Job</h1>
+        <p class="lead">Thousands of jobs waiting for you</p>
+    </div>
+</div>
+
+<!-- 🔍 SEARCH FORM -->
+<form method="POST">
+    {% csrf_token %}
+    <div class="container mt-4 d-flex gap-3 shadow p-4 justify-content-center">
+
+        <input type="text"
+               class="form-control"
+               name="title"
+               placeholder="Job title / Company name">
+
+        <input type="text"
+               class="form-control"
+               name="location"
+               placeholder="Location">
+
+        <button type="submit" class="btn btn-primary">
+            Search
+        </button>
+
+    </div>
+</form>
+
+
+<div class="container mt-4">
+
+    <h2>Available Jobs</h2>
+
+    {% if jobs %}
+    <div class="row mt-4">
+        {% for job in jobs %}
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary text-center">
+                        {{ job.title }}
+                    </h5>
+
+                    <p><strong>Company:</strong> {{ job.company }}</p>
+                    <p><strong>Location:</strong> {{ job.location }}</p>
+                    <p><strong>Salary:</strong> {{ job.salary }}</p>
+                    <p><strong>Type:</strong> {{ job.job_type }}</p>
+                    <p><strong>Description:</strong> {{ job.description }}</p>
+                </div>
+
+                <div class="card-footer text-center bg-white d-grid">
+                    <a href="{% url 'apply_job' job.id %}" class="btn btn-primary">
+                        Apply
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="alert alert-danger text-center mt-4">
+        No jobs found
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

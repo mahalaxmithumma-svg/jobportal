@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Job</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #F8F5FF;
+    margin: 0;
+    padding: 0;
+  }
+ 
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+  }
+ 
+  .card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.2);
+    padding: 30px;
+  }
+ 
+  h3 {
+    text-align: center;
+    color: #7C3AED;
+    margin-bottom: 30px;
+  }
+ 
+  label {
+    font-weight: 600;
+    color: #5D3FD3;
+  }
+ 
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #D8D0F5;
+    margin-bottom: 15px;
+    outline: none;
+  }
+ 
+  textarea {
+    resize: vertical;
+  }
+ 
+  input[type="text"]:focus,
+  textarea:focus {
+    border-color: #7C3AED;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
+  }
+ 
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+ 
+  .btn-update {
+    background: linear-gradient(90deg, #7C3AED, #A78BFA);
+    color: white;
+  }
+ 
+  .btn-update:hover {
+    background: linear-gradient(90deg, #633BBC, #7F56D9);
+  }
+ 
+  .btn-back {
+    background: #EDE5FF;
+    color: #7C3AED;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 8px;
+  }
+ 
+  .btn-back:hover {
+    background: #D8CFFF;
+  }
+ 
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+ 
+</style>
+</head>
+<body>
+ 
+<div class="container">
+  <div class="card">
+    <h3>Edit Job</h3>
+ 
+    <form method="POST">
+      <!-- CSRF token for Django -->
+      {% csrf_token %}
+ 
+      <label for="title">Job Title</label>
+      <input type="text" id="title" name="title" value="{{ job.title }}" placeholder="Enter job title" required>
+ 
+      <label for="company">Company</label>
+      <input type="text" id="company" name="company" value="{{ job.company }}" placeholder="Company name" required>
+ 
+      <label for="location">Location</label>
+      <input type="text" id="location" name="location" value="{{ job.location }}" placeholder="Job location" required>
+ 
+      <label for="salary">Salary</label>
+      <input type="text" id="salary" name="salary" value="{{ job.salary }}" placeholder="Optional">
+ 
+      <label for="description">Job Description</label>
+      <textarea id="description" name="description" rows="5" placeholder="Enter job description" required>{{ job.description }}</textarea>
+ 
+      <div class="form-actions">
+        <a href="{% url 'admindashboard' %}" class="btn-back">Back</a>
+        <button type="submit" class="btn btn-update">Update</button>
+      </div>
+    </form>
+ 
+  </div>
+</div>
+ 
+</body>
+</html>

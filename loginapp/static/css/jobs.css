@@ -1,0 +1,51 @@
+ body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+        }
+
+        .form-container {
+            width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+        }
+        label{
+            font-weight: 600;
+            font-weight: bolder;
+            font-size: 16px;
+            color: black;
+        }
+       .jobs-container{
+        display: flex;
+        gap:20px;
+        flex-wrap: wrap;
+       } 
+     .job-card{
+        border: 1px solid gray;
+        border-radius: 10px;
+        width: 380px;
+        background-color: blanchedalmond;
+        padding: 10px;
+        flex: 1;
+     }
